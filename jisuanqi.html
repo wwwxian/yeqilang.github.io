@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算器</title>
+  <style type="text/css">
+        .calc .panel .digit {
+      float: left;
+    }
+
+    .calc .panel .digit {
+      margin: 0 auto;
+    }
+
+    .calc .panel .digit {
+      text-align: center;
+    }
+
+    .show input {
+      display: none;
+    }
+
+    .show #inputBlock,
+    .show #OutputBlock {
+      position: relative;
+    }
+
+    .show #inputBlock #stack1,
+    .show #OutputBlock #stack2 {
+      position: absolute;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+      content: "";
+      display: table;
+    }
+
+    .clearfix:after {
+      clear: both;
+      overflow: hidden;
+    }
+
+    .calc {
+      width: 250px;
+    }
+
+    .calc .panel .digit {
+      width: 50px;
+      height: 40px;
+      background-color: #e6e6e6;
+      color: black;
+      font-family: 'Microsoft YaHei', Verdana, Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      line-height: 40px;
+    }
+
+    .calc .panel .digit:hover {
+      background-color: #cfcfcf;
+    }
+
+    .show {
+      background-color: #f2f2f2;
+      height: 80px;
+    }
+
+    .show #inputBlock {
+      height: 50px;
+    }
+
+    .show #inputBlock #stack1 {
+      font-family: 'Microsoft YaHei', Verdana, Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      line-height: 50px;
+      bottom: 0px;
+    }
+
+    .show #OutputBlock {
+      height: 30px;
+    }
+
+    .show #OutputBlock #stack2 {
+      bottom: 0px;
+      color: #0066cc;
+    }
+    .calc {
+  width: 250px;
+  border: 1px solid #e6e6e6; /* 使用与计算器按钮相同的背景颜色作为外边框颜色 */
+  padding: 0px; /* 可以添加一些内边距来让计算器内容与外边框之间有一定的间隔 */
+    }
+    
+    
+  </style>
+</head>
+
+  </style>
+</head>
+
+<body>
+  <!-- 计算器 -->
+  <div class="calc">
+    <div class="show">
+      <input type="text" id="formula">
+      <div class="OutputBlock"><span id="stack2"></span></div>
+      <div class="inputBlock"><span id="stack1"></span></div>
+    </div>
+    <div class="panel clearfix">
+      <div class="digit">NEG</div>
+      <div class="digit">CE</div>
+      <div class="digit">C</div>
+      <div class="digit">NEW</div>
+      <div class="digit">/</div>
+      <div class="digit">PI</div>
+      <div class="digit">7</div>
+      <div class="digit">8</div>
+      <div class="digit">9</div>
+      <div class="digit">*</div>
+      <div class="digit">n!</div>
+      <div class="digit">4</div>
+      <div class="digit">5</div>
+      <div class="digit">6</div>
+      <div class="digit">-</div>
+      <div class="digit">ANS</div>
+      <div class="digit">1</div>
+      <div class="digit">2</div>
+      <div class="digit">3</div>
+      <div class="digit">+</div>
+      <div class="digit">(</div>
+      <div class="digit">)</div>
+      <div class="digit">0</div>
+      <div class="digit">.</div>
+      <div class="digit">=</div>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript">
+  var stack1; // 声明变量 stack1，用于存储输入的数字和运算符
+  var result; // 声明变量 result，用于存储计算结果
+  var btns = document.querySelectorAll('.digit'); // 获取所有类名为 'digit' 的按钮元素
+
+  // 给每个按钮添加点击事件监听器
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', (event) => {
+      foo(event); // 点击按钮时调用 foo 函数处理事件
+    });
+  }
+
+  var stack1; // 再次声明变量 stack1，可能是重复声明，建议移除
+
+  init(); // 初始化计算器
+  renderOutput(stack1.join("")); // 初始化后将初始值显示在页面上
+
+  function foo(event) {
+    if (event.target.innerHTML == 'C' || event.target.innerHTML == 'CE') {
+      renderOutput(0); // 清空输出并显示 0
+      init(); // 重新初始化
+    } else if (event.target.innerHTML == '=') {
+      try {
+        result = eval(stack1.join("")); // 计算输入的表达式
+        renderOutput(result); // 显示计算结果
+        stack1 = [result]; // 将结果存入 stack1
+      } catch (error) {
+        renderOutput("Error"); // 如果计算错误，显示错误信息
+        init(); // 初始化计算器
+      }
+    } else {
+      if (stack1.length == 1 && stack1[0] == '0') {
+        stack1.pop(); // 如果当前输入为单个 '0'，则移除
+      }
+      stack1.push(event.target.innerHTML); // 将点击的按钮内容添加到 stack1
+      renderOutput(stack1.join("")); // 更新显示的内容
+    }
+  }
+
+  function renderOutput(content) {
+    document.querySelector("#stack1").innerHTML = content; // 将内容显示在 id 为 'stack1' 的元素中
+  }
+
+  function init() {
+    stack1 = [0]; // 初始化 stack1 为单个 '0'
+    result = null; // 将 result 设为 null
+  }
+</script>
+</script>
+</html>

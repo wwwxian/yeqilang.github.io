@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+    <script>
+        function startGame() {
+            let secretNumber = Math.floor(Math.random() * 100) + 1;
+            let currentRound = 1;
+            let maxRounds = 5;
+            let guesses = [];
+
+            document.getElementById('startButton').disabled = true;
+
+            document.getElementById('submitGuess').addEventListener('click', function() {
+                let guess = parseInt(document.getElementById('guessInput').value);
+
+                if (guess < 1 || guess > 100 || isNaN(guess)) {
+                    alert("请输入1到100之间的数字。");
+                    return;
+                }
+
+                guesses.push(guess);
+
+                if (guess === secretNumber) {
+                    document.getElementById('result').innerHTML = "恭喜你猜对了!";
+                    document.getElementById('submitGuess').disabled = true;
+                    document.getElementById('restartButton').disabled = false;
+                } else {
+                    if (currentRound < maxRounds) {
+                        document.getElementById('result').innerHTML = "猜错了，请再试一次。";
+                        currentRound++;
+                        document.getElementById('round').innerHTML = currentRound;
+                    } else {
+                        document.getElementById('result').innerHTML = "游戏结束，正确答案是 " + secretNumber;
+                        document.getElementById('submitGuess').disabled = true;
+                        document.getElementById('restartButton').disabled = false;
+                    }
+                }
+            });
+
+            document.getElementById('restartButton').addEventListener('click', function() {
+                secretNumber = Math.floor(Math.random() * 100) + 1;
+                currentRound = 1;
+                guesses = [];
+                document.getElementById('result').innerHTML = "";
+                document.getElementById('round').innerHTML = currentRound;
+                document.getElementById('submitGuess').disabled = false;
+                document.getElementById('restartButton').disabled = true;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>猜数字游戏</h1>
+    <p>当前轮数: <span id="round">1</span></p>
+    <p>猜一个 1 到 100 之间的数字: <input type="number" id="guessInput"></p>
+    <button id="submitGuess">提交</button>
+    <p id="result"></p>
+    <button id="startButton" onclick="startGame()">开始游戏</button>
+    <button id="restartButton" disabled>重新开始</button>
+</body>
+</html>

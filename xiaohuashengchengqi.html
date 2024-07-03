@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Generator</title>
+    <style>
+        #joke {
+            background-color: lightblue;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function generateJoke() {
+            let name = document.getElementById('customName').value;
+            let country = document.querySelector('input[name="country"]:checked').value;
+            let joke;
+            if (country === "us") {
+                let jokes = [
+                    "Why don't skeletons fight each other? They don't have the guts.",
+                    "I told my wife she should embrace her mistakes. She gave me a hug."
+                ];
+                let randomIndex = Math.floor(Math.random() * jokes.length);
+                joke = jokes[randomIndex];
+                if (name) {
+                    joke = `<b>${name}</b> says: ${joke}`;
+                }
+            } else {
+                let jokes = [
+                    "有一天，一只海龟在沙滩上散步，看到一只螃蟹在爬行。海龟问：“你为什么总是横着走？”螃蟹回答说：“因为我螃蟹有钳，所以任性。”",
+                    "有一只猫，她去找她的妈妈。她发现她的妈妈正在洗澡。她对她的妈妈说：“妈妈，我发现了一个可怕的怪物！”"
+                ];
+                let randomIndex = Math.floor(Math.random() * jokes.length);
+                joke = jokes[randomIndex];
+                if (name) {
+                    joke = `${name} 说：${joke}`;
+                }
+            }
+
+            document.getElementById('joke').innerHTML = joke;
+        }
+    </script>
+</head>
+<body>
+    <h1>Joke Generator</h1>
+    <p>输入自定义的名字: <input type="text" id="customName"></p>
+    <p>选择国家名称: 
+        <input type="radio" id="us" name="country" value="us" checked>
+        <label for="us">美国</label>
+        <input type="radio" id="china" name="country" value="china">
+        <label for="china">中国</label>
+    </p>
+    <button onclick="generateJoke()">随机生成笑话</button>
+    <p id="joke"></p>
+</body>
+</html>
